@@ -1,0 +1,14 @@
+{
+  "name": "serv",
+  "version": "0.1.0",
+  "description": "A super simple, and super fast HTTP server for NodeJS projects.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+
