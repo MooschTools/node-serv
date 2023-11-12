@@ -1,5 +1,34 @@
 import http from 'node:http';
 
+/**
+ * @typedef {Function} Next
+ * @return {void}
+ */
+
+/**
+ * @typedef {Function} Middleware
+ * @param {object} request
+ * @param {object} response
+ * @param {Next} next
+ */
+
+/**
+ * @typedef {Function} Handler
+ * @param {object} request
+ * @param {object} response
+ */
+
+/**
+ * @typedef {Function} Response.send
+ * @param {number} statusCode
+ * @param {string|object} data - Object or string response
+ */
+
+/**
+ * @typedef {object} Response - extends http.Response
+ * @param {function} Response.send
+ */
+
 class Serv
 {
     server;
@@ -20,6 +49,10 @@ class Serv
         this.server.on( 'error', err => this.handleError( err ));
     }
 
+    /**
+     * 
+     * 
+     */
     async requestHandler( request, response )
     {
         let error;
@@ -64,8 +97,14 @@ class Serv
                 res.end( JSON.stringify( data ) );
             }
         };
-    }
+    } 
 
+    /**
+     * Add middleware functions to requests.
+     * Note: These are ran BEFORE the route request handler.
+     * 
+     * @param {Middleware} middleware
+     */
     use( middleware )
     {
         this.middlewares.push( middleware );
@@ -90,16 +129,36 @@ class Serv
         };
     }
 
+    /**
+     * Define GET handler.
+     *
+     * @param {string} route - A route to accept GET requests on.
+     * @param {Handler} handler - function to handle requests.
+     * @returns {void}
+    */
     get( route, handler )
     {
         this.method( this.methods.GET, route, handler );
     }
 
+    /**
+     * Define POST handler.
+     *
+     * @param {string} route - A route to accept POST requests on.
+     * @param {Handler} handler - function to handle requests.
+     * @returns {void}
+    */
     post( route, handler)
     {
         this.method( this.methods.POST, route, handler );
     }
 
+    /**
+     * Define uncaught error handler.
+     *
+     * @param {Handler} handler - function to handle unhandled exceptions.
+     * @returns {void}
+    */
     error( handler )
     {
         if ( typeof handler !== 'function' )
@@ -108,6 +167,13 @@ class Serv
         this.onError = handler;
     }
 
+    /**
+     * Start server listening for requests.
+     *
+     * @param {number} port - The port to accept requests on.
+     * @param {function} callback - called after the server starts.
+     * @returns {void}
+    */
     listen( port, callback )
     {
         if ( port == null && callback == null )
@@ -125,6 +191,12 @@ class Serv
         });
     }
 
+    /**
+     * Close the server.
+     * 
+     * @param {function} callback - called after the server shuts down.
+     * @returns {void}
+    */
     close( callback )
     {
         this.server.close( callback )

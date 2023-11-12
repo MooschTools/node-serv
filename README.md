@@ -10,10 +10,10 @@ You _could_ (and perhaps should?) write your server with `node:http` directly. B
 
 ## Usage
 
-This can be found in [testbed](../testbed/index.js).
+This can be found in [testbed](./testbed/index.js).
 
 ```javascript
-import { Serv } from '../index.js';
+import { Serv } from './index.js';
 
 const PORT = process.env.port || 4001;
 const server = new Serv();
@@ -45,6 +45,12 @@ function reqLogger( _req, _res, next )
     next();
 }
 ```
+
+## Todo
+
+- [ ] Route-based middleware.
+- [ ] Route based error handling.
+- [ ] Investiage if agents are a good idea
 
 ## FAQ
 
